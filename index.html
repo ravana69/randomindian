@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Indian Data</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Random Indian Data Generator</h1>
+    <div id="randomDataContainer">
+        <img id="randomImage" src="" alt="Random Image">
+        <p>Name: <span id="randomName"></span></p>
+        <p>Location: <span id="randomLocation"></span></p>
+        <p>Pincode: <span id="randomPincode"></span></p>
+        <p>State: <span id="randomState"></span></p>
+    </div>
+    <button id="generateButton">Generate Random Data</button>
+
+    <script>
+        // Function to fetch random user data from the API and display it on the website
+        function fetchRandomUserData() {
+            fetch('https://randomuser.me/api/?nat=IN') // API URL for generating random Indian user data
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.results[0];
+                    const randomImage = user.picture.large;
+                    const randomName = `${user.name.first} ${user.name.last}`;
+                    const randomLocation = `${user.location.city}, ${user.location.state}`;
+                    const randomPincode = user.location.postcode;
+                    const randomState = user.location.state;
+
+                    // Display the random data on the website
+                    document.getElementById('randomImage').src = randomImage;
+                    document.getElementById('randomName').textContent = randomName;
+                    document.getElementById('randomLocation').textContent = randomLocation;
+                    document.getElementById('randomPincode').textContent = randomPincode;
+                    document.getElementById('randomState').textContent = randomState;
+                })
+                .catch(error => console.error('Error fetching random data:', error));
+        }
+
+        // Add a click event listener to the "Generate Random Data" button
+        document.getElementById('generateButton').addEventListener('click', fetchRandomUserData);
+
+        // Call the function once initially to display the default data
+        fetchRandomUserData();
+    </script>
+</body>
+</html>
